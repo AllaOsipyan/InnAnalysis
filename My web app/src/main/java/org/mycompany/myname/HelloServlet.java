@@ -5,20 +5,28 @@ package org.mycompany.myname;
 import org.mycompany.myname.Parsers.*;
 
 import javax.jws.WebService;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-@WebService
+
+@WebServlet("/check")
 public class HelloServlet extends HttpServlet {
-    public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        Info.inn = "7729717254";
+        String inn = req.getParameter("inn");
+        if(inn.length()==10)
+            Info.inn = inn;
         Info.createDriver();
         Parser tfs = new ArbitrScr();
+
         try {
-            tfs.getPage();
+            OutputInfo finalInfo =tfs.getPage();
+
+            req.setAttribute("files",finalInfo );
+
+            getServletContext().getRequestDispatcher("/answer.jsp").forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        httpServletResponse.getWriter().print("Hello from servlet");
     }
 }

@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class Info {
     private static WebDriver driver;
     public static String inn="";
-    public static String name="";
+    public static String name="a";
     public String BaseUrl;
 
     public static WebDriver getDriver() {
